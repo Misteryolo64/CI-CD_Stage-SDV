@@ -80,9 +80,21 @@ jobs:
         run: |
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
-          # Idéal: stocker l'empreinte attendue en secret, mais à défaut on pin le host via keyscan
-          ssh-keyscan -p 22 -H 10.100.0.2 >> ~/.ssh/known_hosts
+          ssh-keyscan -T 10 -p 22 -H 10.100.0.2 >> ~/.ssh/known_hosts || true
           chmod 600 ~/.ssh/known_hosts
+
+      - name: Debug WireGuard + routes
+        run: |
+          ip -br a
+          ip route
+          sudo wg show
+          sudo ss -lunp | head -n 50 || true
+
+      - name: Connectivity checks
+        run: |
+          ping -c 3 10.100.0.1 || true
+          ping -c 3 10.100.0.2 || true
+          nc -vz -w 3 10.100.0.2 22 || true
 
       - name: Deploy via SSH (Docker)
         uses: appleboy/ssh-action@v1.0.3
