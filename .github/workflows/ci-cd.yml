@@ -2,9 +2,9 @@ name: CI/CD
 
 on:
   pull_request:
-    branches: [ "main" ]
+    branches: [ "master" ]
   push:
-    branches: [ "main" ]
+    branches: [ "master" ]
 
 permissions:
   contents: read
@@ -105,7 +105,7 @@ jobs:
               git clone "$REPO" .
             else
               git fetch origin
-              git reset --hard origin/main
+              git reset --hard origin/master
             fi
 
             docker ps >/dev/null
