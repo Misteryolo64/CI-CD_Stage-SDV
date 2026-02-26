@@ -96,7 +96,7 @@ jobs:
             set -euo pipefail
 
             APP_DIR="$HOME/vincilab"
-            REPO="https://github.com/${{ github.repository }}.git"
+            REPO="git@github.com:${{ github.repository }}.git"
 
             mkdir -p "$APP_DIR"
             cd "$APP_DIR"
